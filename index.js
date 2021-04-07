@@ -15,15 +15,15 @@ app.get('/', (req, res) => {
 })
 
 
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ensly.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
-
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.clvrh.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 client.connect(err => {
+  
   const productsCollection = client.db("superShop").collection("products");
   const checkOutCollection = client.db("superShop").collection("checkOut");
-
+  
   app.get('/products', (req, res) => {
     productsCollection.find()
       .toArray((err, items) => {
